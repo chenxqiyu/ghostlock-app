@@ -433,12 +433,12 @@ static void slab_drain(void) {
   }
 }
 
-int g_core_main = 0;
-int g_core_consumer = 1;
+int g_core_main = 5;
+int g_core_consumer = 6;
 
 void init_cpu_config(void) {
-  g_core_main = 0;
-  g_core_consumer = 1;
+  g_core_main = 5;
+  g_core_consumer = 6;
 
   const char *s = getenv("GHOSTLOCK_CORE");
   if (s && *s) {
@@ -465,18 +465,31 @@ void init_cpu_config(void) {
   if (g_core_main == g_core_consumer) {
     pr_warning("main and consumer cores are the same (%d); falling back\n",
                g_core_main);
-    g_core_main = 0;
-    g_core_consumer = 1;
+    g_core_main = 5;
+    g_core_consumer = 6;
   }
 
   cpu_set_t allowed;
   if (sched_getaffinity(0, sizeof(allowed), &allowed) == 0 &&
       (!CPU_ISSET(g_core_main, &allowed) ||
        !CPU_ISSET(g_core_consumer, &allowed))) {
-    pr_warning("cores %d/%d not in allowed cpuset; falling back to 0/1\n",
-               g_core_main, g_core_consumer);
-    g_core_main = 0;
-    g_core_consumer = 1;
+    /* Default pair (5/6) not usable; pick the first two allowed cores. */
+    int first = -1, second = -1;
+    for (int i = 0; i < CPU_SETSIZE; i++) {
+      if (CPU_ISSET(i, &allowed)) {
+        if (first < 0) {
+          first = i;
+        } else if (second < 0) {
+          second = i;
+          break;
+        }
+      }
+    }
+    if (second < 0) second = first;
+    pr_warning("cores %d/%d not in allowed cpuset; falling back to %d/%d\n",
+               g_core_main, g_core_consumer, first, second);
+    g_core_main = first;
+    g_core_consumer = second;
   }
 
   pr_info("cpu pair: main=%d consumer=%d\n", g_core_main, g_core_consumer);
