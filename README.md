@@ -7,7 +7,7 @@ adb shell 'chmod 0755 /data/local/tmp/preload.so'
 
 adb shell "LD_PRELOAD=/data/local/tmp/preload.so /system/bin/true"
 ```
-<img width="1932" height="1039" alt="image" src="https://github.com/user-attachments/assets/11f6f0bb-8f02-43d5-8fe7-546b810d70b8" />
+<img width="1932" height="1039" alt="643715162-11f6f0bb-8f02-43d5-8fe7-546b810d70b8" src="https://github.com/user-attachments/assets/369cfc4c-14ed-4ec6-981a-23172cb8ae30" />
 
 
 
