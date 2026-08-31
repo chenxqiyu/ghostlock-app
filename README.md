@@ -1,6 +1,14 @@
 # GhostLock-App
 
+```
+6.1.138-android14-11-g0c3d559bcd85-ab14529422 Xiaomi 14 Pro (shennong)
+
+```
+
+
+
 > 中文: [README_ZH.md](README_ZH.md)
+
 
 ## Supported Devices
 
