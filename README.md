@@ -6,6 +6,9 @@
 adb shell 'chmod 0755 /data/local/tmp/preload.so'
 
 adb shell "LD_PRELOAD=/data/local/tmp/preload.so /system/bin/true"
+
+首次安装root,跑代码发现selinux变成宽容模式,先ctrl+z中断程序,手动安装最新版kernelsu.apk,然后看到宽容模式并点击越狱,会提示越狱失败.
+然后重启再完整跑一次so即可获取临时root权限
 ```
 <img width="1932" height="1039" alt="643715162-11f6f0bb-8f02-43d5-8fe7-546b810d70b8" src="https://github.com/user-attachments/assets/369cfc4c-14ed-4ec6-981a-23172cb8ae30" />
 
